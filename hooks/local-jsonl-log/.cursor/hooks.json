@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "command": ".cursor/hooks/local_log.sh", "timeout": 2 }
+    ],
+    "afterAgentResponse": [
+      { "command": ".cursor/hooks/local_log.sh", "timeout": 2 }
+    ]
+  }
+}

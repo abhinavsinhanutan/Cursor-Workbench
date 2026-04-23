@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--
+  Example output for the presentation-creation skill.
+  Source content doc: example/content.md
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="presentation-creation skill (cursor-workbench)">
+  <title>AGENT FUNDAMENTALS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Per-deck accent overrides — derived from front-matter `chapters[*].accent`.
+       This is the only file the skill emits that touches color. styles.css is
+       copied verbatim and never modified. */
+    :root {
+      --part1-accent: #7c6aef; /* purple */
+      --part2-accent: #38bdf8; /* cyan */
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== LANDING ===== -->
+<div id="landing" class="scene active">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="landing-content">
+    <h1 class="landing-title">
+      <span class="line1">AGENT</span>
+      <span class="line2">FUNDAMENTALS</span>
+    </h1>
+    <p class="landing-subtitle stagger-item">What every IDE-agent user should know.</p>
+    <div class="parts-triptych">
+      <button class="part-card stagger-item" data-part="1" tabindex="0">
+        <div class="part-num">01</div>
+        <div class="part-title">BASICS</div>
+        <div class="part-subtitle">Three things to do on day one.</div>
+      </button>
+      <button class="part-card stagger-item" data-part="2" tabindex="0">
+        <div class="part-num">02</div>
+        <div class="part-title">TIPS</div>
+        <div class="part-subtitle">Things you only learn the hard way.</div>
+      </button>
+    </div>
+  </div>
+  <div class="landing-footer">
+    <div class="landing-avatar" role="img" aria-label="Jane Doe, presenter"></div>
+    <div class="landing-attribution">Jane Doe &middot; Acme.ai</div>
+    <div class="landing-hint">Press 1 &middot; 2 or click any part to enter.</div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 1 — BASICS ===== -->
+<div id="chapter-1" class="chapter">
+
+  <!-- 1.0 chapter-opener -->
+  <section class="slide" data-slide="1.0">
+    <div class="slide-inner chapter-opener">
+      <div class="chapter-hero-num" style="color:var(--part1-accent)">01</div>
+      <h2 class="slide-headline stagger-item"
+          style="background:linear-gradient(135deg,#fff 0%,var(--accent-bright) 100%);
+                 -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                 background-clip:text">BASICS.</h2>
+      <p class="slide-subtitle stagger-item">Three things to do on day one.</p>
+      <div class="toc-grid">
+        <button class="toc-tile stagger-item" data-target="1">Indexing</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.1 two-col, steps=2 -->
+  <section class="slide" data-slide="1.1" data-steps="2">
+    <div class="slide-inner">
+      <div class="two-col" style="align-items:center">
+        <div>
+          <h2 class="slide-headline">Indexing
+            <span style="font-weight:300;color:var(--text-dim)">&mdash; your agent is only as smart as your index.</span>
+          </h2>
+          <p class="slide-body stagger-item">
+            Every retrieval the agent does runs through this index. Garbage in, garbage answers out.
+          </p>
+          <div class="callout stagger-item">
+            <div class="callout-title">Day-one checklist</div>
+            <ul>
+              <li>Wait for the initial index to finish before asking <code style="color:var(--accent-cyan)">@Codebase</code> questions.</li>
+              <li>Add a <code style="color:var(--accent-cyan)">.cursorignore</code> for build artifacts and vendored code.</li>
+              <li>Re-index after you change <code style="color:var(--accent-cyan)">.cursorignore</code> &mdash; it does not pick it up automatically.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="stagger-item">
+          <!-- Asset placeholder: indexing-diagram.png is referenced but not provided.
+               Drop a real file at assets/indexing-diagram.png to replace this. -->
+          <div class="video-placeholder">
+            <div class="vp-icon">&#128247;</div>
+            <div class="vp-label">missing: assets/indexing-diagram.png</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-stack rs-1">
+        <div class="callout substep substep-1"
+             style="margin:0;border-left-color:var(--accent-orange);background:rgba(251,146,60,0.06)">
+          <div class="callout-title" style="color:var(--accent-orange)">One more thing</div>
+          <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;margin:0">
+            Index custom external docs (specs, glossaries) so the agent knows your terms before reading code.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== CHAPTER 2 — TIPS ===== -->
+<div id="chapter-2" class="chapter">
+
+  <!-- 2.0 chapter-opener -->
+  <section class="slide" data-slide="2.0">
+    <div class="slide-inner chapter-opener">
+      <div class="chapter-hero-num" style="color:var(--part2-accent)">02</div>
+      <h2 class="slide-headline stagger-item"
+          style="background:linear-gradient(135deg,#fff 0%,var(--accent-cyan) 100%);
+                 -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                 background-clip:text">TIPS.</h2>
+      <p class="slide-subtitle stagger-item">Things you only learn the hard way.</p>
+    </div>
+  </section>
+
+  <!-- 2.1 tip -->
+  <section class="slide" data-slide="2.1">
+    <div class="slide-inner tip-slide">
+      <div class="tip-tag tip-tag-prompting stagger-item">Prompting</div>
+      <div class="tip-num stagger-item">01</div>
+      <h2 class="tip-headline stagger-item">
+        End coding prompts with <span style="color:var(--accent-green)">&ldquo;a senior engineer will review your code.&rdquo;</span>
+      </h2>
+      <p class="tip-body stagger-item">
+        One sentence at the end of your prompt. The model second-guesses itself before you see the output. Works best with frontier models.
+      </p>
+      <div class="tip-caveat stagger-item">
+        <span class="tip-caveat-icon">&#9888;</span>
+        <span class="tip-caveat-text">
+          <strong>Not magic.</strong> If your prompt is vague to begin with, this won't fix it.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.2 code -->
+  <section class="slide" data-slide="2.2">
+    <div class="slide-inner">
+      <h2 class="slide-headline"><code style="font-family:var(--mono);background:none;color:var(--accent-cyan)">cursor-agent</code>
+        <span style="font-weight:300;color:var(--text-dim)">&mdash; your terminal is the new chat box.</span>
+      </h2>
+      <p class="slide-body stagger-item">The full agent loop, headless, scriptable.</p>
+      <div class="code-container stagger-item">
+        <div class="code-tabs">
+          <button class="code-tab active" role="tab">terminal</button>
+          <div class="code-tab-indicator"></div>
+        </div>
+        <div class="code-body"><div class="code-panel active"><span class="cmt"># One-shot, read-only (default)</span>
+$ cursor-agent <span class="kw">-p</span> <span class="str">"What does src/auth do?"</span>
+
+<span class="cmt"># Let it actually edit files</span>
+$ cursor-agent <span class="kw">-p --force</span> <span class="str">"Refactor utils.js to ES6 modules"</span>
+
+<span class="cmt"># Structured output for scripts / CI</span>
+$ cursor-agent <span class="kw">-p --output-format</span> json \
+    <span class="str">"List all TODO comments"</span> | jq</div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== FINAL ===== -->
+<div id="final-slide" class="scene">
+  <div class="landing-content" style="text-align:center">
+    <h2 style="font-size:clamp(2.5rem,6vw,5rem);font-weight:900;letter-spacing:-0.03em;
+               line-height:1.05;margin-bottom:1.5rem;max-width:900px">
+      Small habits compound.
+    </h2>
+    <p class="stagger-item"
+       style="font-size:clamp(1rem,1.8vw,1.3rem);color:var(--text-dim);max-width:650px;margin-bottom:3rem">
+      Pick one tip from this deck and try it tomorrow.
+    </p>
+    <div class="stagger-item" style="font-size:0.9rem;color:var(--text-muted)">
+      Thanks for coming. &mdash; Jane Doe &middot; Acme.ai
+    </div>
+  </div>
+</div>
+
+<!-- ===== OVERLAYS ===== -->
+<div class="wipe-overlay"><div class="wipe-shape"></div></div>
+<div class="chapter-curtain chapter-curtain-top" aria-hidden="true"></div>
+<div class="chapter-curtain chapter-curtain-bottom" aria-hidden="true"></div>
+<div class="progress-bar"></div>
+<div class="kb-help" aria-hidden="true">
+  <h3>Keyboard Shortcuts</h3>
+  <dl>
+    <dt>&rarr; / Space</dt><dd>Next slide / sub-step</dd>
+    <dt>&larr;</dt><dd>Previous slide / sub-step</dd>
+    <dt>Esc</dt><dd>Go up one level</dd>
+    <dt>1 / 2</dt><dd>Jump to Part (from landing)</dd>
+    <dt>?</dt><dd>Toggle this help</dd>
+  </dl>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

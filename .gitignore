@@ -1,0 +1,29 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Local hook / observability data (peers: keep logs out of git)
+.cursor/cursor-workbench-logs/
+**/.cursor-workbench-logs/
+**/cursor-workbench-logs/
+*.log
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.Python
+
+# Node (if you extend skills with JS tooling)
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*~
