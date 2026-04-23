@@ -25,7 +25,15 @@ cp -R /path/to/cursor-workbench/subagents/* .cursor/subagents/
 
 ## 3. MCP configuration (no secrets in git)
 
-1. Copy the **example** only — edit locally with your paths and keys:
+1. Read **[config/MCP.md](../config/MCP.md)** — it lists each server, what is
+   **sensitive** vs not, and that **Cursor may not prompt** for every token
+   (you usually paste into your private `mcp.json` or **Settings → MCP** once).
+
+2. Optionally use **[config/.env.example](../config/.env.example)** as a
+   **worksheet** for Tableau values, then copy the same keys into the `env`
+   block in your real config. **Do not commit** a filled `.env`.
+
+3. Copy the **JSON example** only — edit locally with your paths and keys:
 
    ```bash
    cp /path/to/cursor-workbench/config/mcp.json.example /path/to/your-home/.cursor/mcp.json
@@ -33,11 +41,13 @@ cp -R /path/to/cursor-workbench/subagents/* .cursor/subagents/
    # cp .../mcp.json.example .cursor/mcp.json
    ```
 
-2. Edit `mcp.json` and set:
-   - **Tableau** (if used): absolute path to the Tableau MCP server, org URL, PAT name, and secret from your server’s **Personal Access Tokens** UI.
-   - **Other servers**: per their docs; keep tokens out of version control.
+4. Edit `mcp.json` and set:
+   - **Tableau** (if used): absolute path to the Tableau MCP server, org URL,
+     PAT name, and secret from your server’s **Personal Access Tokens** UI.
+   - **Other servers**: per [MCP.md](../config/MCP.md) and their upstream docs;
+     keep tokens out of version control.
 
-3. **Rotate** any credential that was ever committed or pasted into a shared doc.
+5. **Rotate** any credential that was ever committed or pasted into a shared doc.
 
 ## 4. Hooks
 

@@ -86,10 +86,15 @@ flowchart TB
 
 Copy the whole folder or individual `.mdc` files; merge with care if you already have project rules.
 
-### MCP — [config/mcp.json.example](config/mcp.json.example) only
+### MCP — [config/](config/) (templates only; **no** real secrets in git)
 
-Copy to `~/.cursor/mcp.json` or `<project>/.cursor/mcp.json` and **fill in local paths and secrets** (never commit the real file; this repo [ignores](.gitignore) `.cursor/mcp.json` at clone roots that follow that pattern for local testing).  
-Includes placeholder blocks for `code-review-graph`, `charlotte`, `playwright`, and optional **Tableau** (path + PAT placeholders).
+| Doc | What it is |
+| --- | --- |
+| [config/mcp.json.example](config/mcp.json.example) | **Commit-safe** JSON: `code-review-graph`, `charlotte`, `playwright`, optional **Tableau** (placeholders for URL, path, PAT). |
+| [config/MCP.md](config/MCP.md) | **Per-server** guide: what you type vs what is secret, and that Cursor **may not** auto-prompt for every token — you fill **Settings → MCP** or a private `mcp.json` once. |
+| [config/.env.example](config/.env.example) | Optional **worksheet** for Tableau `env` keys; copy to a local untracked file and transcribe into JSON. |
+
+Copy `mcp.json.example` to `~/.cursor/mcp.json` or `<project>/.cursor/mcp.json` and **replace every placeholder** (this repo [ignores](.gitignore) `.cursor/mcp.json` to reduce accidental commits). **Never** commit real PATs or API keys.
 
 ### Skills — `.cursor/skills/<name>/skills.md`
 
@@ -170,7 +175,7 @@ Cursor-Workbench/
   README.md
   LICENSE
   .gitignore
-  config/             # mcp.json.example (no real credentials)
+  config/             # mcp.json.example, MCP.md, .env.example (no real credentials)
   docs/               # SETUP.md, AGENTS.template.md, hooks.json.example, future.md
   rules/              # .mdc rules
   skills/
