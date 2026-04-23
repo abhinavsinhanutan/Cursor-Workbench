@@ -1,0 +1,57 @@
+---
+import { marked } from 'marked';
+import leadRaw from '../markdown/in-the-box-lead.md?raw';
+
+const leadHtml = marked.parse(leadRaw.trim(), { async: false });
+---
+<section class="in-the-box" aria-labelledby="h-box">
+  <div class="wrap">
+    <h2 id="h-box">What’s in the box</h2>
+    <div class="section-lead from-md" set:html={leadHtml} />
+    <div class="grid">
+      <article class="card">
+        <span class="tag">Rules</span>
+        <h3>Project guardrails</h3>
+        <p>
+          Atlassian, browser (Charlotte/Playwright), token efficiency, data-eng workflows, and
+          more — as <code>.mdc</code> files for Cursor rules.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag">Skills</span>
+        <h3>Clarify, plan, present</h3>
+        <p>
+          Brainstorm, planning-brief, and presentation-creation (markdown → static HTML deck) with
+          clear triggers in each <code>skills.md</code>.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag">Subagents</span>
+        <h3>Single-role prompts</h3>
+        <p>
+          Implementer, tester, reviewer, and ship-writer: invoke one at a time or in sequence for
+          a repeatable pipeline.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag">MCP</span>
+        <h3>Example servers</h3>
+        <p>
+          <code>mcp.json.example</code> +
+          <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/config/MCP.md"
+            >MCP.md</a
+          > describe code-review-graph, Charlotte, Playwright, and optional Tableau with
+          placeholders only.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag">Hooks</span>
+        <h3>Telemetry &amp; guard</h3>
+        <p>
+          Optional local JSONL logging and a Langfuse-oriented bundle with MCP write guard.
+          Fail-open by design.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>

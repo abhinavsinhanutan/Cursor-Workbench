@@ -1,156 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Cursor-Workbench — a copy-paste kit of Cursor rules, skills, subagents, MCP templates, and optional hooks. MIT. No secrets in repo." />
-  <title>Cursor-Workbench — a map for your Cursor setup</title>
-  <link rel="stylesheet" href="assets/style.css" />
-</head>
-<body>
-  <div class="orb orb-1" aria-hidden="true"></div>
-  <div class="orb orb-2" aria-hidden="true"></div>
-
-  <header class="site-header">
-    <div class="wrap">
-      <a class="logo" href="https://abhinavsinhanutan.github.io/Cursor-Workbench/">Cursor-Workbench</a>
-      <a class="nav-gh" href="https://github.com/abhinavsinhanutan/Cursor-Workbench" rel="noopener">GitHub</a>
-    </div>
-  </header>
-
-  <main id="main">
-    <div class="hero">
-      <div class="wrap">
-        <p class="hero-badge">Open kit · MIT · no global install</p>
-        <h1>We gave your team a <span class="gradient">folder-shaped map</span> for Cursor.</h1>
-        <p class="lead">Rules, skills, subagents, MCP examples, and hooks you can copy into <code style="color: var(--accent2);">.cursor/</code> — without pasting the same prompts from scratch every week.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="https://github.com/abhinavsinhanutan/Cursor-Workbench">View on GitHub</a>
-          <a class="btn btn-ghost" href="https://github.com/abhinavsinhanutan/Cursor-Workbench#readme">Read the README</a>
-        </div>
-        <div class="stats" role="list" aria-label="What is in the repository">
-          <div class="stat" role="listitem">
-            <div class="stat-value">8</div>
-            <div class="stat-label">Project rules</div>
-            <div class="stat-hint">.mdc in <code>rules/</code></div>
-          </div>
-          <div class="stat" role="listitem">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Agent skills</div>
-            <div class="stat-hint">brainstorm, planning, decks</div>
-          </div>
-          <div class="stat" role="listitem">
-            <div class="stat-value">4</div>
-            <div class="stat-label">Subagents</div>
-            <div class="stat-hint">build → test → review → ship</div>
-          </div>
-          <div class="stat" role="listitem">
-            <div class="stat-value">2</div>
-            <div class="stat-label">Hook bundles</div>
-            <div class="stat-hint">local log + Langfuse path</div>
-          </div>
-          <div class="stat" role="listitem">
-            <div class="stat-value">1</div>
-            <div class="stat-label">MCP example</div>
-            <div class="stat-hint">placeholders only, no keys</div>
-          </div>
-        </div>
-        <p class="stat-hint" style="margin-top:1.5rem;max-width:50ch;margin-left:auto;margin-right:auto">Counts are from the published tree. This is a <em>convention kit</em>, not a benchmark against other products.</p>
-      </div>
-    </div>
-
-    <section class="in-the-box" aria-labelledby="h-box">
-      <div class="wrap">
-        <h2 id="h-box">What’s in the box</h2>
-        <p class="section-lead">Each piece is text and scripts you can merge into a real repo or your user <code>~/.cursor</code> config. Secrets stay on your machine.</p>
-        <div class="grid">
-          <article class="card">
-            <span class="tag">Rules</span>
-            <h3>Project guardrails</h3>
-            <p>Atlassian, browser (Charlotte/Playwright), token efficiency, data-eng workflows, and more — as <code>.mdc</code> files for Cursor rules.</p>
-          </article>
-          <article class="card">
-            <span class="tag">Skills</span>
-            <h3>Clarify, plan, present</h3>
-            <p>Brainstorm, planning-brief, and presentation-creation (markdown → static HTML deck) with clear triggers in each <code>skills.md</code>.</p>
-          </article>
-          <article class="card">
-            <span class="tag">Subagents</span>
-            <h3>Single-role prompts</h3>
-            <p>Implementer, tester, reviewer, and ship-writer: invoke one at a time or in sequence for a repeatable pipeline.</p>
-          </article>
-          <article class="card">
-            <span class="tag">MCP</span>
-            <h3>Example servers</h3>
-            <p><code>mcp.json.example</code> + <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/config/MCP.md">MCP.md</a> describe code-review-graph, Charlotte, Playwright, and optional Tableau with placeholders only.</p>
-          </article>
-          <article class="card">
-            <span class="tag">Hooks</span>
-            <h3>Telemetry &amp; guard</h3>
-            <p>Optional local JSONL logging and a Langfuse-oriented bundle with MCP write guard. Fail-open by design.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="workflow" aria-labelledby="h-flow">
-      <div class="wrap">
-        <h2 id="h-flow">A default path through the work</h2>
-        <p class="section-lead">Not a product requirement — a <strong>convention</strong> the README encodes. Skip steps when the task is small.</p>
-        <div class="flow" aria-label="Default workflow order">
-          <div class="flow-row">
-            <span class="flow-step">user prompt</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-step">brainstorm</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-step">planning_brief</span>
-          </div>
-          <div class="flow-row" style="margin-top:0.5rem">
-            <span class="flow-arrow" style="opacity:0.6">↓</span>
-          </div>
-          <div class="flow-row">
-            <span class="flow-step">implementer</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-step">tester</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-step">reviewer</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-step">ship_writer</span>
-          </div>
-        </div>
-        <p class="flow-note">Decks and docs can also branch from the initial prompt (e.g. <strong>presentation-creation</strong>).</p>
-      </div>
-    </section>
-
-    <section class="get-started" aria-labelledby="h-cta">
-      <div class="wrap">
-        <div class="cta-block">
-          <h2 id="h-cta" style="margin:0 0 0.5rem;font-size:1.35rem">Get the kit</h2>
-          <p class="section-lead" style="margin:0 auto 1rem">Clone, then follow the <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/docs/SETUP.md">install guide (SETUP.md)</a> in the repository.</p>
-          <div class="code-row">
-            <pre class="code-box" id="clone-snippet">git clone https://github.com/abhinavsinhanutan/Cursor-Workbench.git
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Cursor-Workbench — a copy-paste kit of Cursor rules, skills, subagents, MCP templates, and optional hooks. MIT. No secrets in repo."><title>Cursor-Workbench — a map for your Cursor setup</title><link rel="stylesheet" href="/Cursor-Workbench/_astro/index.BRaXMOym.css"></head> <body>  <div class="orb orb-1" aria-hidden="true"></div> <div class="orb orb-2" aria-hidden="true"></div> <header class="site-header"> <div class="wrap"> <a class="logo" href="https://abhinavsinhanutan.github.io/Cursor-Workbench">Cursor-Workbench</a> <a class="nav-gh" href="https://github.com/abhinavsinhanutan/Cursor-Workbench" rel="noopener">GitHub</a> </div> </header> <main id="main"> <div class="hero"> <div class="wrap"> <p class="hero-badge">Open kit · MIT · no global install</p> <h1>We gave your team a <span class="gradient">folder-shaped map</span> for Cursor.</h1> <p class="lead">
+Rules, skills, subagents, MCP examples, and hooks you can copy into
+<code style="color: var(--accent2)">.cursor/</code> — without pasting the same prompts
+      from scratch every week.
+</p> <div class="hero-cta"> <a class="btn btn-primary" href="https://github.com/abhinavsinhanutan/Cursor-Workbench">View on GitHub</a> <a class="btn btn-ghost" href="https://github.com/abhinavsinhanutan/Cursor-Workbench#readme">Read the README</a> </div> <div class="stats" role="list" aria-label="What is in the repository"> <div class="stat" role="listitem"> <div class="stat-value">8</div> <div class="stat-label">Project rules</div> <div class="stat-hint">.mdc in <code>rules/</code></div> </div> <div class="stat" role="listitem"> <div class="stat-value">3</div> <div class="stat-label">Agent skills</div> <div class="stat-hint">brainstorm, planning, decks</div> </div> <div class="stat" role="listitem"> <div class="stat-value">4</div> <div class="stat-label">Subagents</div> <div class="stat-hint">build → test → review → ship</div> </div> <div class="stat" role="listitem"> <div class="stat-value">2</div> <div class="stat-label">Hook bundles</div> <div class="stat-hint">local log + Langfuse path</div> </div> <div class="stat" role="listitem"> <div class="stat-value">1</div> <div class="stat-label">MCP example</div> <div class="stat-hint">placeholders only, no keys</div> </div> </div> <p class="stat-hint" style="margin-top:1.5rem;max-width:50ch;margin-left:auto;margin-right:auto">
+Counts are from the published tree. This is a <em>convention kit</em>, not a benchmark against
+  other products.
+</p> </div> </div> <section class="in-the-box" aria-labelledby="h-box"> <div class="wrap"> <h2 id="h-box">What’s in the box</h2> <div class="section-lead from-md"><p>Each piece is text and scripts you can merge into a real repo or your user <code>~/.cursor</code> config. <strong>Secrets stay on your machine.</strong></p>
+</div> <div class="grid"> <article class="card"> <span class="tag">Rules</span> <h3>Project guardrails</h3> <p>
+Atlassian, browser (Charlotte/Playwright), token efficiency, data-eng workflows, and
+          more — as <code>.mdc</code> files for Cursor rules.
+</p> </article> <article class="card"> <span class="tag">Skills</span> <h3>Clarify, plan, present</h3> <p>
+Brainstorm, planning-brief, and presentation-creation (markdown → static HTML deck) with
+          clear triggers in each <code>skills.md</code>.
+</p> </article> <article class="card"> <span class="tag">Subagents</span> <h3>Single-role prompts</h3> <p>
+Implementer, tester, reviewer, and ship-writer: invoke one at a time or in sequence for
+          a repeatable pipeline.
+</p> </article> <article class="card"> <span class="tag">MCP</span> <h3>Example servers</h3> <p> <code>mcp.json.example</code> +
+<a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/config/MCP.md">MCP.md</a> describe code-review-graph, Charlotte, Playwright, and optional Tableau with
+          placeholders only.
+</p> </article> <article class="card"> <span class="tag">Hooks</span> <h3>Telemetry &amp; guard</h3> <p>
+Optional local JSONL logging and a Langfuse-oriented bundle with MCP write guard.
+          Fail-open by design.
+</p> </article> </div> </div> </section> <section class="workflow" aria-labelledby="h-flow"> <div class="wrap"> <h2 id="h-flow">A default path through the work</h2> <p class="section-lead">
+Not a product requirement — a <strong>convention</strong> the README encodes. Skip steps when
+      the task is small.
+</p> <div class="flow" aria-label="Default workflow order"> <div class="flow-row"> <span class="flow-step">user prompt</span> <span class="flow-arrow">→</span> <span class="flow-step">brainstorm</span> <span class="flow-arrow">→</span> <span class="flow-step">planning_brief</span> </div> <div class="flow-row" style="margin-top:0.5rem"> <span class="flow-arrow" style="opacity:0.6">↓</span> </div> <div class="flow-row"> <span class="flow-step">implementer</span> <span class="flow-arrow">→</span> <span class="flow-step">tester</span> <span class="flow-arrow">→</span> <span class="flow-step">reviewer</span> <span class="flow-arrow">→</span> <span class="flow-step">ship_writer</span> </div> </div> <p class="flow-note">
+Decks and docs can also branch from the initial prompt (e.g. <strong>presentation-creation</strong>).
+</p> </div> </section> <section class="get-started" aria-labelledby="h-cta"> <div class="wrap"> <div class="cta-block"> <h2 id="h-cta" style="margin:0 0 0.5rem;font-size:1.35rem">Get the kit</h2> <p class="section-lead" style="margin:0 auto 1rem">
+Clone, then follow the
+<a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/docs/SETUP.md">install guide (SETUP.md)</a> in the repository.
+</p> <div class="code-row"> <pre class="code-box" id="clone-snippet">git clone https://github.com/abhinavsinhanutan/Cursor-Workbench.git
 cd Cursor-Workbench
-export CURSOR_WB_ROOT="$(pwd)"</pre>
-          </div>
-          <button type="button" class="btn btn-ghost" id="btn-copy" style="margin-top:0.75rem" data-copy="clone-snippet" aria-label="Copy clone command to clipboard">Copy clone block</button>
-          <p class="copy-ok" id="copy-status" role="status" aria-live="polite"></p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>
-        <strong>Cursor-Workbench</strong> ·
-        <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/LICENSE">MIT License</a>
-        ·
-        <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench">Source</a>
-      </p>
-      <p>Not affiliated with <a href="https://mibayy.github.io/token-savior/">Token Savior</a>, <a href="https://cursor.com">Cursor</a>, or the vendors named in example MCP config. This site is a static project page; <a href="https://abhinavsinhanutan.github.io/Cursor-Workbench/">home</a>.</p>
-    </div>
-  </footer>
-
-  <script src="assets/main.js" defer></script>
-</body>
-</html>
+export CURSOR_WB_ROOT="$(pwd)"</pre> </div> <button type="button" class="btn btn-ghost" id="btn-copy" style="margin-top:0.75rem" data-copy="clone-snippet" aria-label="Copy clone command to clipboard">Copy clone block</button> <p class="copy-ok" id="copy-status" role="status" aria-live="polite"></p> </div> </div> </section> </main> <footer class="site-footer"> <div class="wrap"> <p> <strong>Cursor-Workbench</strong> ·
+<a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/LICENSE">MIT License</a>
+·
+<a href="https://github.com/abhinavsinhanutan/Cursor-Workbench">Source</a> </p> <p>
+Not affiliated with <a href="https://mibayy.github.io/token-savior/">Token Savior</a>,
+<a href="https://cursor.com">Cursor</a>, or the vendors named in example MCP config. This site
+      is a static project page; <a href="https://abhinavsinhanutan.github.io/Cursor-Workbench">home</a>.
+</p> </div> </footer>  <script src="/Cursor-Workbench/assets/main.js" defer></script> </body> </html>

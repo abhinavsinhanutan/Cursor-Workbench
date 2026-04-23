@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BackgroundOrbs from '../components/BackgroundOrbs.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import Workflow from '../components/Workflow.astro';
+import CtaClone from '../components/CtaClone.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+<BaseLayout>
+  <BackgroundOrbs />
+  <SiteHeader />
+  <main id="main">
+    <Hero />
+    <FeatureGrid />
+    <Workflow />
+    <CtaClone />
+  </main>
+  <SiteFooter />
+</BaseLayout>

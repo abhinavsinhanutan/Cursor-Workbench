@@ -1,0 +1,21 @@
+---
+const site = Astro.site ?? new URL('https://abhinavsinhanutan.github.io');
+const home = new URL(import.meta.env.BASE_URL, site).href;
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <p>
+      <strong>Cursor-Workbench</strong> ·
+      <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/LICENSE"
+        >MIT License</a
+      >
+      ·
+      <a href="https://github.com/abhinavsinhanutan/Cursor-Workbench">Source</a>
+    </p>
+    <p>
+      Not affiliated with <a href="https://mibayy.github.io/token-savior/">Token Savior</a>,
+      <a href="https://cursor.com">Cursor</a>, or the vendors named in example MCP config. This site
+      is a static project page; <a href={home}>home</a>.
+    </p>
+  </div>
+</footer>

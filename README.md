@@ -12,12 +12,25 @@ Use what you need in a project’s **`.cursor/`** or in your **user** Cursor con
 
 **Security:** [SECURITY.md](SECURITY.md) — enable **GitHub → Settings → Code security and analysis (secret scanning)**; never copy your real workspace `mcp.json` (e.g. `~/…/GitHub/.cursor/mcp.json`) into this repo, only [config/mcp.json.example](config/mcp.json.example).
 
+## Building the GitHub Pages site
+
+The live page under [`docs/`](docs/) is built from the **Astro** app in [`website/`](website/):
+
+```bash
+cd website
+npm install
+npm run build
+```
+
+Then commit the regenerated `docs/` (CI enforces that it matches the build). See [website/README.md](website/README.md) for `base` URL, preview, and troubleshooting.
+
 ---
 
 ## Contents
 
 - [What this is](#what-this-is-and-is-not)
 - [Get the repo](#get-the-repo)
+- [Build the GitHub Pages site](#building-the-github-pages-site)
 - [Default workflow](#architecture-default-workflow)
 - [What’s in the box](#whats-in-the-box)
 - [Quickstart](#quickstart)
@@ -181,7 +194,8 @@ Cursor-Workbench/
   LICENSE
   .gitignore
   config/             # mcp.json.example, MCP.md, .env.example (no real credentials)
-  docs/               # SETUP.md, AGENTS.template.md, hooks.json.example, future.md
+  website/            # Astro source; `npm run build` writes static output to docs/
+  docs/               # GitHub Pages: built site + SETUP.md, AGENTS.template.md, etc.
   rules/              # .mdc rules
   skills/
   subagents/

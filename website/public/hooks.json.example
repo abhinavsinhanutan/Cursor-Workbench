@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "sessionEnd": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "beforeSubmitPrompt": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "afterAgentResponse": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "afterAgentThought": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "preToolUse": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "postToolUse": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "postToolUseFailure": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "beforeShellExecution": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "afterShellExecution": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "beforeMCPExecution": [
+      { "command": ".cursor/hooks/mcp-guard.sh" },
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "afterMCPExecution": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ],
+    "stop": [
+      { "command": ".cursor/hooks/dispatch.sh", "timeout": 5 }
+    ]
+  }
+}

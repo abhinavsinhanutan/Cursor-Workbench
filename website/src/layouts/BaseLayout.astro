@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Cursor-Workbench — a map for your Cursor setup',
+  description = 'Cursor-Workbench — a copy-paste kit of Cursor rules, skills, subagents, MCP templates, and optional hooks. MIT. No secrets in repo.',
+} = Astro.props;
+const base = import.meta.env.BASE_URL;
+const assetBase = base.endsWith('/') ? base : `${base}/`;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script is:inline src={`${assetBase}assets/main.js`} defer></script>
+  </body>
+</html>
