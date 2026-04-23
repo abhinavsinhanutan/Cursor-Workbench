@@ -5,7 +5,8 @@
 A **copy-paste [Cursor](https://cursor.com)** kit: **project rules** (`.mdc`), **agent skills**, **subagent** personas, a **redacted [MCP](https://github.com/cursor/mcp) config example**, and **optional** hooks (local file log, [Langfuse](https://langfuse.com) telemetry, MCP write guard).  
 Use what you need in a project’s **`.cursor/`** or in your **user** Cursor config — [full install steps](docs/SETUP.md). No global installer.
 
-**Repository:** [github.com/abhinavsinhanutan/Cursor-Workbench](https://github.com/abhinavsinhanutan/Cursor-Workbench)
+**Repository:** [github.com/abhinavsinhanutan/Cursor-Workbench](https://github.com/abhinavsinhanutan/Cursor-Workbench)  
+**Live site (GitHub Pages):** [abhinavsinhanutan.github.io/Cursor-Workbench](https://abhinavsinhanutan.github.io/Cursor-Workbench/) (enable **Settings → Pages → `/docs` on `main`** if the site 404s)
 
 **Last doc refresh:** 2026-04 (update when you change the tree meaningfully). Cursor’s skill and hook behavior can differ by version — check Cursor’s docs if something does not autoload.
 
