@@ -1,21 +1,50 @@
 # Cursor-Workbench
 
-A **copy-paste Cursor kit**: **rules**, **skills**, **subagents**, **MCP
-example config**, and **optional** hooks (local log, Langfuse, MCP guard). Drop
-the pieces you want into a project’s `.cursor/` (or your user config) — see
-[docs/SETUP.md](docs/SETUP.md). No global install required.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**Last doc refresh:** 2026-04-24 — Cursor’s skill/hook behavior can evolve; if
-something no longer autoloads, check Cursor’s docs for your version.
+A **copy-paste [Cursor](https://cursor.com)** kit: **project rules** (`.mdc`), **agent skills**, **subagent** personas, a **redacted [MCP](https://github.com/cursor/mcp) config example**, and **optional** hooks (local file log, [Langfuse](https://langfuse.com) telemetry, MCP write guard).  
+Use what you need in a project’s **`.cursor/`** or in your **user** Cursor config — [full install steps](docs/SETUP.md). No global installer.
+
+**Repository:** [github.com/abhinavsinhanutan/Cursor-Workbench](https://github.com/abhinavsinhanutan/Cursor-Workbench)
+
+**Last doc refresh:** 2026-04 (update when you change the tree meaningfully). Cursor’s skill and hook behavior can differ by version — check Cursor’s docs if something does not autoload.
+
+---
+
+## Contents
+
+- [What this is](#what-this-is-and-is-not)
+- [Get the repo](#get-the-repo)
+- [Default workflow](#architecture-default-workflow)
+- [What’s in the box](#whats-in-the-box)
+- [Quickstart](#quickstart)
+- [Team conventions](#team-conventions-short)
+- [Design principles](#design-principles)
+- [Repository layout](#repository-layout)
+- [Verify before you share](#verification-checklist-before-you-tell-peers-it-works)
+- [License](#license)
+
+---
 
 ## What this is (and is not)
 
 | In scope | Out of scope (non-goals) |
 | --- | --- |
-| Reusable **rules**, **skills**, and **subagent** prompts for a consistent agent workflow | A fork of any other public “agent kit” repo; this tree is **standalone** |
-| **Optional** hooks (file log, Langfuse, MCP write prompts) that **fail open** | Product decisions for your org (you still own process and compliance) |
-| Example **[config/mcp.json.example](config/mcp.json.example)** (placeholders only) | Your real `mcp.json` with API keys — **keep local / private** |
-| A **default path** (clarify → implement → test → review → ship) you can share with peers | Replacement for code review, security review, or your CI pipeline |
+| Reusable **rules**, **skills**, and **subagent** prompts for a consistent agent workflow | A fork of another public “agent kit” — this tree is **standalone** |
+| **Optional** hooks that **fail open** (file log, Langfuse, MCP guard) | Your org’s product, compliance, and review process |
+| **[config/mcp.json.example](config/mcp.json.example)** — placeholders only | A committed **real** `mcp.json` with live API keys or PATs |
+| A **default path** (clarify → plan → implement → test → review → ship) you can share with peers | A substitute for human code review, security sign-off, or CI policy |
+
+## Get the repo
+
+```bash
+git clone https://github.com/abhinavsinhanutan/Cursor-Workbench.git
+cd Cursor-Workbench
+# Then copy pieces into a target project; see Quickstart and docs/SETUP.md
+export CURSOR_WB_ROOT="$(pwd)"   # optional: use in copy commands below
+```
+
+Or download a ZIP from GitHub and use the same paths relative to the extracted folder.
 
 ## Architecture (default workflow)
 
@@ -38,141 +67,123 @@ flowchart TB
   u --> deck
 ```
 
-- Use **brainstorm** when the ask is **fuzzy**; use **planning-brief** when
-  the direction is clear but **ordering** is not.
-- **Subagents** are plain markdown personas you (or a meta-prompt) invoke for a
-  single role — see [subagents/](subagents/).
+- **brainstorm** — use when the ask is still **fuzzy** (1% doubt → ask).
+- **planning-brief** — use when direction is clear but **ordering** or **options** are not.
+- **Subagents** — see [subagents/](subagents/); invoke one role or chain them in chat.
+
+**Deep dive:** [docs/SETUP.md](docs/SETUP.md) (rules, MCP, hooks, merging `hooks.json`). **AGENTS.md starter:** [docs/AGENTS.template.md](docs/AGENTS.template.md).
 
 ## What’s in the box
 
-**Full install guide:** [docs/SETUP.md](docs/SETUP.md) (rules, MCP, hooks, merge
-order). **Optional AGENTS starter:** [docs/AGENTS.template.md](docs/AGENTS.template.md).
+### Rules — [rules/](rules/) → `.cursor/rules/*.mdc`
 
-### Rules (`.cursor/rules/*.mdc`)
-
-| Path | Notes |
+| Area | Files (examples) |
 | --- | --- |
-| [rules/](rules/) | Cursor project rules (Atlassian, browser, token efficiency, data-eng, etc.). Copy the whole folder or pick files. |
+| Tooling & workflow | [token-efficiency.mdc](rules/token-efficiency.mdc), [default-ask-mode.mdc](rules/default-ask-mode.mdc), [boot-sequence.mdc](rules/boot-sequence.mdc) |
+| Integrations | [atlassian-mcp-guardrails.mdc](rules/atlassian-mcp-guardrails.mdc), [browser-mcp-charlotte-playwright.mdc](rules/browser-mcp-charlotte-playwright.mdc) |
+| Data / guardrails | [data-eng-workflow-guardrails.mdc](rules/data-eng-workflow-guardrails.mdc), [informatica-no-writes.mdc](rules/informatica-no-writes.mdc) |
+| Meta | [self-improvement.mdc](rules/self-improvement.mdc) |
 
-### MCP (example only — [config/mcp.json.example](config/mcp.json.example))
+Copy the whole folder or individual `.mdc` files; merge with care if you already have project rules.
 
-| Purpose |
-| --- |
-| Template for `code-review-graph`, `charlotte`, `playwright`, and an optional **Tableau** block with **placeholder** URL, path, and PAT. Copy to `~/.cursor/mcp.json` or project `.cursor/mcp.json` and fill in locally. |
+### MCP — [config/mcp.json.example](config/mcp.json.example) only
 
-### Skills (`.cursor/skills/<name>/skills.md`)
+Copy to `~/.cursor/mcp.json` or `<project>/.cursor/mcp.json` and **fill in local paths and secrets** (never commit the real file; this repo [ignores](.gitignore) `.cursor/mcp.json` at clone roots that follow that pattern for local testing).  
+Includes placeholder blocks for `code-review-graph`, `charlotte`, `playwright`, and optional **Tableau** (path + PAT placeholders).
 
-| Skill | One line | Example trigger phrase |
+### Skills — `.cursor/skills/<name>/skills.md`
+
+| Skill | One line | Example trigger |
 | --- | --- | --- |
 | [brainstorm](skills/brainstorm/skills.md) | Resolve ambiguity before code; 1% doubt → ask. | "brainstorm with me", "let’s clarify" |
-| [planning-brief](skills/planning-brief/skills.md) | One-page plan: options, pick, ordered next steps. | "help me plan the approach" |
-| [presentation-creation](skills/presentation-creation/skills.md) | Markdown content → static HTML deck via layout catalog. | "build a deck from `docs/talk.md`" |
+| [planning-brief](skills/planning-brief/skills.md) | One-page plan: options, pick, next steps. | "help me plan the approach" |
+| [presentation-creation](skills/presentation-creation/skills.md) | Markdown → static HTML deck via the layout catalog. | "build a deck from `docs/talk.md`" |
 
-`presentation-creation` needs a **`styles.css`** you supply; see
-[ASSETS_FOR_DECKS.md](skills/presentation-creation/ASSETS_FOR_DECKS.md).
+`presentation-creation` expects a separate **`styles.css`** (org-specific); see [skills/presentation-creation/ASSETS_FOR_DECKS.md](skills/presentation-creation/ASSETS_FOR_DECKS.md) and [vendor/serve.py](skills/presentation-creation/vendor/serve.py) for local preview.
 
-### Subagents (`.cursor/subagents/<role>/subagent.md`)
+### Subagents — [subagents/](subagents/)
 
-| Role | Use |
+| Subagent | Purpose |
 | --- | --- |
-| [implementer](subagents/implementer/subagent.md) | Code from an agreed BRIEF or plan. |
-| [tester](subagents/tester/subagent.md) | Tests tied to accept criteria. |
-| [reviewer](subagents/reviewer/subagent.md) | `VERDICT: PASS|RETRY|FAIL` style review. |
-| [ship-writer](subagents/ship-writer/subagent.md) | PR text, verify steps, optional `RUN.md` notes. |
+| [implementer](subagents/implementer/subagent.md) | Turn BRIEF/plan into code. |
+| [tester](subagents/tester/subagent.md) | Tests from acceptance criteria. |
+| [reviewer](subagents/reviewer/subagent.md) | `VERDICT: PASS \| RETRY \| FAIL`. |
+| [ship-writer](subagents/ship-writer/subagent.md) | PR body, verify steps, stakeholder summary. |
 
-**Default path for peers:** *brainstorm* (if fuzzy) → *planning-brief* or BRIEF
-→ *implementer* + *tester* in parallel if your team does that → *reviewer* →
-*ship-writer*.
+**Typical order:** *brainstorm* (if needed) → *planning-brief* or BRIEF → *implementer* (and *tester*) → *reviewer* → *ship-writer*.
 
-### Hooks (optional)
-
-See [hooks/README.md](hooks/README.md) and [docs/hooks.json.example](docs/hooks.json.example).
+### Hooks — [hooks/README.md](hooks/README.md) · [docs/hooks.json.example](docs/hooks.json.example)
 
 | Bundle | Role |
 | --- | --- |
-| [hooks/local-jsonl-log](hooks/local-jsonl-log) | Append-only local file log. |
-| [hooks/langfuse-cursor-hook](hooks/langfuse-cursor-hook) | Langfuse + `mcp-guard.sh`; run `install.sh` for Python deps. |
+| [hooks/local-jsonl-log](hooks/local-jsonl-log) | Append hook stdin to a local log file; no third-party API. |
+| [hooks/langfuse-cursor-hook](hooks/langfuse-cursor-hook) | Langfuse observations + [mcp-guard.sh](hooks/langfuse-cursor-hook/mcp-guard.sh) for MCP writes; run `install.sh` to create `.venv` locally. |
 
-## Quickstart (5 minutes)
+Merge `hooks.json` stanzas if you use more than one bundle; see [docs/SETUP.md](docs/SETUP.md) §4.
+
+## Quickstart (about 5 minutes)
+
+**1. Clone (or set `CURSOR_WB_ROOT` to this repo’s path on disk).**
+
+**2. Copy into a project** (from the repo root or `$CURSOR_WB_ROOT`):
 
 ```bash
-cd /path/to/your/project
-mkdir -p .cursor/skills .cursor/subagents
-cp -R /path/to/cursor-workbench/skills/brainstorm .cursor/skills/
-cp -R /path/to/cursor-workbench/skills/planning-brief .cursor/skills/
-cp -R /path/to/cursor-workbench/subagents/* .cursor/subagents/
-# Optional deck skill + optional hook — only if you need them
-# cp -R /path/to/cursor-workbench/skills/presentation-creation .cursor/skills/
-# cp -R /path/to/cursor-workbench/hooks/local-jsonl-log/.cursor .  # merge hooks.json with care; see hook README
+TARGET=/path/to/your/project
+WB=${CURSOR_WB_ROOT:-/path/to/Cursor-Workbench}
+mkdir -p "$TARGET/.cursor/skills" "$TARGET/.cursor/subagents" "$TARGET/.cursor/rules"
+cp -R "$WB/skills/brainstorm" "$WB/skills/planning-brief" "$TARGET/.cursor/skills/"
+cp -R "$WB/subagents"/* "$TARGET/.cursor/subagents/"
+cp -R "$WB/rules"/* "$TARGET/.cursor/rules/"   # optional: merge if rules already exist
+# Optional: presentation skill, hooks — see docs/SETUP.md
 ```
 
-Restart Cursor, then in chat try:
+**3. Restart Cursor** and try a prompt:
 
-> Use the **brainstorm** skill. I want to add a read-only API to our
-> `customers` table — I’m not sure about pagination yet.
+> Use the **brainstorm** skill. I need a read-only API for our `customers` table and I’m unsure about pagination.
 
-**Worked example (planning-brief):**
+**Other examples**
 
-> Use **planning-brief** to outline how we split a large SQL migration into
-> safe, reviewable PRs.
+- *planning-brief:* split a big SQL migration into small, reviewable PRs.
+- *presentation-creation:* "ambiguous-only" mode, content `docs/deck.md`, output `out/deck/`, then add `styles.css` as documented.
 
-**Worked example (deck):**
-
-> Use **presentation-creation** with **ambiguous-only** mode; content file
-> `docs/deck.md`, output `out/deck/`. (Add `styles.css` per
-> [ASSETS_FOR_DECKS.md](skills/presentation-creation/ASSETS_FOR_DECKS.md) for
-> final visuals.)
+**MCP and hooks** are optional; use [config/mcp.json.example](config/mcp.json.example) and [docs/SETUP.md](docs/SETUP.md) so you do not commit secrets.
 
 ## Team conventions (short)
 
-- **Spec / BRIEF:** for anything multi-PR, keep a single `FEATURE.md` or ticket
-  “acceptance” section as source of truth; the **brainstorm** BRIEF should
-  point to it.
-- **Branch naming:** follow your org — this kit does not pick a convention;
-  keep `feat/…`, `fix/…` consistent within the team.
-- **Definition of done for agent-assisted work:** *reviewer* `VERDICT: PASS`,
-  required tests present, and **ship-writer** summary includes **how to verify**
-  (command or click path).
-- **Hooks / logs:** never commit `CURSOR_WB_LOG_DIR` if it ever lives under the
-  repo; use `CURSOR_WB_LOG_DIR=…` in your shell, not a committed `.env` with
-  real paths to secrets.
-- **Telemetry:** the bundled hook is **file-only**; if you add cloud
-  observability, do that under a separate, reviewed config.
+- **Spec / BRIEF** — for multi-PR work, one `FEATURE.md` or ticket acceptance block is the source of truth; the **brainstorm** BRIEF should point at it.
+- **Branches** — follow your org (`feat/…`, `fix/…`, etc.).
+- **Definition of done** for agent-assisted changes: *reviewer* `VERDICT: PASS`, tests as agreed, and *ship-writer* includes **how to verify** (command or path).
+- **Logs / telemetry** — do not commit `CURSOR_WB_LOG_DIR` data or Langfuse `.env` / `.venv` from hook installs.
 
 ## Design principles
 
 1. **Clarify before you code** when *what* or *how* is under-specified.
-2. **Adversarial review** — the reviewer’s job is to find real failure, not
-   to rubber-stamp.
-3. **Fail open on hooks** — the editor must stay usable if a script fails.
-4. **Stack-agnostic** subagents; point them at the repo and tests that already
-   exist.
-5. **No secrets in git** — this repository is meant to be **public-safe**.
+2. **Adversarial review** — the reviewer’s job is to find real failure, not to rubber-stamp.
+3. **Fail open on hooks** — a broken script must not brick the editor.
+4. **Stack-agnostic** subagents where possible; point them at the repo you’re in.
+5. **No secrets in git** — templates and examples only; rotate anything that ever leaked.
 
-## Repo layout
+## Repository layout
 
 ```text
-cursor-workbench/
+Cursor-Workbench/
   README.md
   LICENSE
   .gitignore
-  config/             # mcp.json.example (no secrets)
+  config/             # mcp.json.example (no real credentials)
   docs/               # SETUP.md, AGENTS.template.md, hooks.json.example, future.md
-  rules/              # .mdc rules for .cursor/rules/
-  skills/             # Cursor skills (per-folder skills.md)
-  subagents/          # Role prompts
-  hooks/              # local-jsonl + langfuse-cursor-hook bundles
+  rules/              # .mdc rules
+  skills/
+  subagents/
+  hooks/              # local-jsonl-log, langfuse-cursor-hook
 ```
 
 ## Verification checklist (before you tell peers "it works")
 
-- [ ] From a test project, one skill auto-loads when you use a trigger phrase.
-- [ ] `git status` in **this** repo is clean of `.env`, `.venv`, and log
-  files from hooks.
-- [ ] `rg -i 'api_key|sk-|BEGIN PRIVATE' .` in this repo returns no hits
-  in tracked files (adjust patterns for your org).
+- [ ] In a test project, at least one **skill** responds to an expected trigger phrase.
+- [ ] `git status` in **this** repo is clean: no `.env`, no hook `.venv`, no `langfuse.log` accidentally staged.
+- [ ] Search the tracked tree for accidental secrets (e.g. `git grep -E 'api_key|sk-[A-Za-z0-9]{20,}'` or your org’s pattern); the example files should only contain **placeholders**.
 
 ## License
 
-[MIT](LICENSE). Skills and subagent text in this repository are provided as-is
-for adaptation in your own repos and internal playbooks.
+[MIT](LICENSE). Rules, skills, and subagent text are provided as-is for use and adaptation in your own repositories and playbooks.
