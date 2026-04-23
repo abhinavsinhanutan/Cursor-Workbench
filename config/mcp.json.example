@@ -1,0 +1,43 @@
+{
+  "mcpServers": {
+    "tableau": {
+      "command": "node",
+      "args": [
+        "/ABSOLUTE/PATH/TO/your-clone-of/tableau-mcp-server/src/index.js"
+      ],
+      "env": {
+        "TABLEAU_SERVER_URL": "https://your-tableau.example.com",
+        "TABLEAU_SITE_CONTENT_URL": "",
+        "TABLEAU_PAT_NAME": "your-pat-name",
+        "TABLEAU_PAT_SECRET": "REPLACE_WITH_PAT_FROM_TABLEAU_SERVER_SETTINGS"
+      },
+      "description": "Tableau MCP — set URL and PAT in your *local* mcp.json (do not commit secrets)."
+    },
+    "code-review-graph": {
+      "command": "uvx",
+      "args": [
+        "code-review-graph",
+        "serve"
+      ],
+      "type": "stdio"
+    },
+    "charlotte": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ticktockbent/charlotte"
+      ],
+      "type": "stdio",
+      "description": "Token-efficient browser MCP: navigate, observe, find, interact."
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "type": "stdio",
+      "description": "Full Playwright MCP: a11y snapshots, browser_run_code, tracing."
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# Default Mode: Ask → Agent on Explicit Approval
+
+## Rule
+
+- **Always begin every conversation in Ask mode** — read, explain, plan, and answer questions without making changes.
+- **Never switch to Agent mode on your own.** Only switch when the user explicitly grants permission, for example: "go ahead", "do it", "punch it", "switch to agent", "implement it".
+- If a task clearly requires making changes (file edits, terminal commands, commits), **present the plan first in Ask mode** and wait for the user's go-ahead before requesting a mode switch.
+- When you need Agent mode, say: "Ready to implement — switch me to Agent mode and I'll get started."
+
+## Why
+
+Prevents accidental edits, destructive commands, or premature implementation before the user has reviewed the plan.

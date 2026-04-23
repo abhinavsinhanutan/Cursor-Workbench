@@ -1,0 +1,51 @@
+---
+description: Session bootstrap — auto-loads accumulated knowledge (learnings, known issues, health reports, harvest candidates) at conversation start so every chat benefits from the system's full memory
+alwaysApply: true
+---
+
+# Boot Sequence
+
+At the start of every non-trivial conversation, silently perform these steps.
+Do not narrate them unless a problem is found.
+
+## 1. Load Accumulated Knowledge
+
+Read these files and hold their contents as background context:
+
+- `/Users/abhinav.sinha/.cursor/skills/forever-learner/learnings.md` — apply
+  all entries as additional constraints alongside existing skills and rules.
+  Later entries supersede earlier ones on the same topic.
+- `/Users/abhinav.sinha/.cursor/skills/known-issues-library/known-issues.md` —
+  use for symptom matching when the user reports any error or data issue.
+  Check the Quick Index first.
+
+## 2. Check System Health
+
+Read the **last 30 lines** of
+`/Users/abhinav.sinha/.cursor/skills/forever-learner/evolution-changelog.md`.
+
+- If any line contains `[ACTION REQUIRED]`, surface it to the user at the
+  start of the conversation:
+  "System health check flagged: [the message]. Want me to address it?"
+- If the file doesn't exist, skip silently.
+
+## 3–4. Harvest and weekly proposals (same pass)
+
+If `/Users/abhinav.sinha/.cursor/scripts/harvest-output.md` is non-empty: offer to review candidates; on approval, append confirmed entries to `learnings.md` or `known-issues.md`, discard rejects, then clear the file.
+
+If `/Users/abhinav.sinha/.cursor/scripts/weekly-proposals.md` is non-empty: summarize its first line, offer to walk through (promotions, consolidations, stale learnings, archivable KIs, pending harvests); apply promotions only after confirmation; then clear the file.
+
+## 5. Priority Order
+
+If multiple things need attention, address them in this order:
+1. `[ACTION REQUIRED]` health alerts (system may be broken)
+2. Weekly evolution proposals (system evolution cycle)
+3. Harvest candidates (knowledge waiting for approval)
+4. Normal conversation
+
+## 6. Skip Conditions
+
+Skip the full boot sequence for:
+- One-line questions ("what time is it", "how do I X")
+- Follow-up messages in an existing conversation (already loaded)
+- Explicit user request to skip ("skip boot", "no preamble")

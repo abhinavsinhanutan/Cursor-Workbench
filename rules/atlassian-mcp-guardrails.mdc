@@ -1,0 +1,36 @@
+---
+description: Atlassian / Jira MCP — no comments or Jira issue creation without explicit user permission and reconfirmation
+alwaysApply: true
+---
+
+# Atlassian MCP — writes require permission
+
+Covers **atlassian** (`call_mcp_tool` / `atlassian_invoke_tool`) and **user-jira** (e.g. `jira_create_issue*`) and any Jira/Confluence write exposed as a tool.
+
+## Do not post comments without confirmation
+
+Comments and worklog/comment-style writes only — see also **Jira issue creation** below.
+
+1. **Never** invoke any tool whose purpose is to **add, create, post, or reply with a comment** on a Jira issue, Confluence page, or other Atlassian object **without the user’s explicit permission** in the same conversation (e.g. “yes, post that”, “add the comment”, “go ahead”).
+
+2. **Applies to** any tool name or operation that matches this intent, including (non-exhaustive): `*comment*`, `addComment`, `createComment`, `postComment`, `reply`, Confluence inline/footer comments, Jira worklog or comment APIs exposed as tools. When in doubt, **ask first**.
+
+3. **Allowed without extra permission**: read/search operations (issues, pages, fields, transitions metadata) that **do not** create or modify comments or user-visible narrative content.
+
+4. **Before the user approves**, you may draft comment text in the chat for review. **Do not** send it via MCP until they confirm.
+
+5. **After approval**, confirm briefly what you will post (target: issue key, page, or URL; **first line or short preview** of the comment), then invoke the tool once.
+
+If the user asked for something that implies a comment but did not explicitly allow posting, **stop and ask**: “Here’s the draft comment for **(issue/page)**. OK to post via Atlassian?”
+
+## Do not create Jira issues without request and reconfirmation
+
+1. **Never** invoke any tool whose purpose is to **create** a Jira issue (e.g. `jira_create_issue`, `jira_create_issue_advanced`, or any Atlassian/Jira create-issue API) unless **both**:
+   - The user **explicitly** asked to create, file, or open a Jira ticket in **this** conversation, and
+   - The user **reconfirms** immediately before the call (e.g. “yes, create the ticket”, “go ahead and file it”) for **this** issue.
+
+2. **Does not count** as create permission: drafting text, templates, “what should I put in Jira?”, or debugging/analysis alone. Do not infer permission from context (e.g. Airflow, pipelines) without an explicit create request.
+
+3. **Allowed without create permission**: read/search (`jira_get_issue`, `jira_search_issues`, `jira_get_create_meta`, etc.); **drafting** full issue text in chat for the user to paste or to approve.
+
+4. **Before creating** (only after 1.): show a short recap (project, issue type if relevant, summary, first line or bullet of description), then wait for explicit go-ahead. **When in doubt**, ask.

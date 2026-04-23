@@ -1,0 +1,112 @@
+---
+description: Self-improvement engine — auto-detects capturable knowledge during conversations, suggests promotions from learnings into skills/rules, and maintains the knowledge base health
+alwaysApply: true
+---
+
+# Self-Improvement Engine
+
+Continuously watch for capturable knowledge during every conversation.
+Operate silently until you detect something worth capturing, then confirm
+with the user before writing.
+
+## 1. Auto-Detect Capturable Knowledge
+
+Watch for these signals in real-time:
+
+| Signal | Category | Action |
+|--------|----------|--------|
+| User says "no", "wrong", "actually", "should be" after your output | `correction` | Draft a learning entry |
+| User states a preference ("I prefer", "always use", "don't do") | `preference` | Draft a learning entry |
+| You discover an undocumented codebase pattern | `pattern` | Draft a learning entry |
+| A business rule, SLA, or domain term surfaces | `domain` | Draft a learning entry |
+| An existing skill gave wrong guidance | `skill-gap` | Draft a learning + flag for promotion |
+| A bug was diagnosed and resolved (3+ steps) | issue | Draft a known-issues entry (KI format) |
+| An MCP tool fails or is misconfigured | `environment` | Draft a learning entry |
+
+When detected, draft the entry using the forever-learner or known-issues-library
+format, then ask:
+
+> "I'd like to capture this as a [learning/known issue] for future sessions:
+> _[1-line summary]_. OK to save?"
+
+Only write after explicit user confirmation.
+
+## 2. Deduplication
+
+Before writing any entry:
+
+1. Read `/Users/abhinav.sinha/.cursor/skills/forever-learner/learnings.md`
+2. Search for entries covering the same topic (match by object name, pattern
+   description, or category + subject)
+3. If a duplicate exists:
+   - Same conclusion → skip, tell the user it's already captured
+   - Updated conclusion → update the existing entry, add
+     `(updated YYYY-MM-DD, supersedes original)` note
+   - Contradicting conclusion → replace the old entry, add
+     `(supersedes entry from YYYY-MM-DD)` note
+
+## 3. Promotion Pipeline
+
+After capturing a learning tagged `skill-gap`, `anti-pattern`, or `pattern`
+that applies to a specific skill, evaluate whether it should be promoted:
+
+**Promotion criteria** (any one is sufficient):
+- The learning has been hit 3+ times (check Last hit or similar entries)
+- The learning corrects a specific checklist item in a skill
+- The learning introduces a new anti-pattern that should always be caught
+
+**When promotion is warranted:**
+1. Tell the user: "This learning is a strong candidate for promotion into
+   **[skill-name]**. Want me to update the skill?"
+2. If confirmed, read the target SKILL.md, find the right section, and
+   insert the new item
+3. Mark the learning in `learnings.md` as `(promoted to [skill-name])`
+4. Log the promotion to `~/.cursor/skills/forever-learner/evolution-changelog.md`:
+   `### YYYY-MM-DD [self-improvement] Promoted "[title]" to [skill-name]`
+
+**Rule promotion:** If a learning reveals an anti-pattern that should be
+caught in ALL conversations (not just when a skill is active), suggest
+adding it to `data-eng-workflow-guardrails.mdc` section 5 instead.
+
+## 4. Maintenance Triggers
+
+Check these thresholds during the conversation and act if exceeded:
+
+| Condition | Action |
+|-----------|--------|
+| `learnings.md` > 300 lines | Suggest consolidation: merge related entries, archive stale ones |
+| `learnings.md` has 20+ entries since last maintenance | Suggest a review pass |
+| Any KI entry with Last hit > 6 months | Suggest archiving to `known-issues-archive.md` |
+| Any SKILL.md > 500 lines | Suggest trimming or splitting |
+
+When suggesting maintenance, be specific: "learnings.md is at [N] lines.
+I can consolidate [X] related entries about [topic]. Proceed?"
+
+## 5. MCP Self-Healing
+
+If during the conversation an MCP tool call fails:
+1. Draft an `environment` learning with the error details and fix
+2. If the fix involves `/Users/abhinav.sinha/.cursor/mcp.json`, show the exact JSON diff
+3. Log to evolution-changelog: `### YYYY-MM-DD [self-improvement] MCP fix: [server] - [description]`
+
+## 6. Evolution Changelog
+
+Log every significant system change to
+`/Users/abhinav.sinha/.cursor/skills/forever-learner/evolution-changelog.md`:
+
+- Learning captured: `[self-improvement] Captured "[title]" ([category])`
+- Learning promoted: `[self-improvement] Promoted "[title]" to [skill-name]`
+- Known issue added: `[self-improvement] Added KI-NNN: [title]`
+- Maintenance performed: `[self-improvement] Consolidated N entries in learnings.md`
+- MCP fix applied: `[self-improvement] MCP fix: [server] - [description]`
+
+Format: `### YYYY-MM-DD [source] message`
+
+## 7. Guardrails
+
+- **Never auto-write without confirmation.** Always ask first.
+- **Never capture secrets** — no passwords, tokens, connection strings, PII.
+- **Keep entries atomic** — one learning per entry.
+- **Date every entry** — undated entries have no expiry signal.
+- **Read before write** — always check existing entries to avoid duplicates.
+- **Respect skill boundaries** — promote to the correct skill, not a random one.

@@ -1,0 +1,23 @@
+---
+description: Informatica MCP write tools — use only when writes are enabled and the user explicitly requests stop/start/restart
+alwaysApply: true
+---
+
+# Informatica MCP — Read vs write tools
+
+The Informatica MCP (`informatica` / `user-informatica`) uses env from `mcp.json`, including `INFORMATICA_ALLOW_WRITES`.
+
+## When `INFORMATICA_ALLOW_WRITES` is **false** (default in some setups)
+
+- **Do not call** `informatica_run_mapping_task`, `informatica_stop_job`, or `informatica_run_job` — they will throw unless writes are enabled.
+- **Safe tools**: `informatica_session_info`, `informatica_activity_monitor`, `informatica_activity_log`, `informatica_list_tasks`, `informatica_get_mapping_task`.
+
+## When `INFORMATICA_ALLOW_WRITES` is **true**
+
+- Stop/start/run are allowed **only** when the user explicitly asks to run, stop, or restart a job (or has enabled watchlist automation that uses the same APIs).
+- The BPEL / service account must still have **Run** and **Stop** privileges in IICS for those tasks; env flag alone does not grant rights.
+- Prefer confirming **environment** (e.g. stage vs prod) before mutating jobs.
+
+## External scripts
+
+Watchlist auto-restart and CLI scripts under `informatica-mcp/scripts/` use the same REST API and env vars; they do not go through MCP. Keep credentials in env / `mcp.json`, not in repo files.

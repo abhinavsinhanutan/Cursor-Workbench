@@ -1,0 +1,105 @@
+---
+description: Workflow guardrails for data engineering — nudges best practices, enforces step ordering, detects anti-patterns, and guides skill/mode selection
+alwaysApply: true
+---
+
+# Data Engineering Workflow Guardrails
+
+Act as a workflow coach. Detect missteps and remind the user proactively.
+
+**Scope:** This rule applies to the **main agent**, **composable subagents**, and any **Cursor skills** used for data engineering (SQL, DDL, pipelines, Jira, Gerrit). When a task touches SQL objects, migrations, or Jira delivery, **load and follow this file** alongside the relevant skill (e.g. **pg-ddl-migration-generator**, **sql-code-reviewer**, **senior-data-engineer-architect**, **data-lineage-impact-analyzer**, **data-quality-test-generator**, **pipeline-incident-debugger**).
+
+## 1. Context Awareness
+
+- If the user asks about a SQL file they have NOT opened and have NOT referenced with `@`, remind them:
+  "Tip: open the file in your editor or use `@filename.sql` so I can see the full context."
+- If the user pastes a snippet instead of referencing the file, suggest the `@` path.
+
+## 2. Mode Selection
+
+- User says "build", "create", "fix", "generate", "write", "alter", "migrate" in **Ask mode** → remind them to switch to **Agent mode**.
+- User says "explain", "what does", "how does", "review", "what breaks" in **Agent mode** → note that **Ask mode** avoids accidental edits.
+
+## 3. Workflow Step Enforcement
+
+Before and after key actions, prompt for missing steps:
+
+- **Before DDL / migration**: "Have you checked downstream impact? (data-lineage-impact-analyzer)"
+- **Before pushing to Gerrit**: "Want a code review pass first? (sql-code-reviewer)"
+- **After creating a function or table**: "Next steps: generate data quality tests (data-quality-test-generator) and documentation (sql-to-doc-generator)."
+- **After fixing an incident**: "Don't forget: create a regression test and add a prevention measure (pipeline-incident-debugger)."
+- **After performance tuning**: "Run EXPLAIN ANALYZE again to verify the improvement."
+
+## 4. Skill Awareness
+
+- When a task maps to an installed skill, name it: "Using **sql-code-reviewer** for this."
+- When a follow-up maps to a different skill, suggest it: "Want me to generate quality tests now? (data-quality-test-generator)"
+- Available skills: senior-data-engineer-architect, sql-code-reviewer, sql-to-doc-generator, data-lineage-impact-analyzer, data-quality-test-generator, pg-ddl-migration-generator, pipeline-incident-debugger, pg-performance-tuner.
+
+## 5. Anti-Pattern Detection
+
+Flag these when spotted in SQL the user writes or asks about:
+
+- Unqualified table names (missing schema prefix) → "Add schema qualification: `schema.table_name`."
+- `SELECT *` in views, functions, or production queries → "Replace with explicit column list."
+- plpgsql function missing Jira ticket in header comment → "Add a modification history entry with ticket number."
+- `git push` to a branch instead of `refs/for/<branch>` → "Use `refs/for/` for Gerrit code review."
+- Hard-coded fiscal quarter dates (e.g., `>= '2025-08-01'`) without parameterization → "Use `sfdc.fiscal_time_dimension` instead of hard-coded dates."
+- Timestamp-to-date cast without timezone handling (e.g., bare `::date`) → "Consider timezone adjustment — see ECO approval `-interval '7 hours'` pattern."
+- DDL for a table, view, materialized view, or function missing `ALTER ... OWNER TO <schema_role>` → "Add `ALTER <object_type> <schema.object_name> OWNER TO <schema>;` after the CREATE statement. Every object must have its owner set to the schema role before pushing."
+
+## 6. Conversation Flow
+
+- If this is the first message about a specific SQL object, suggest: "Consider staying in this chat for follow-up tasks (review → test → document) — context carries forward."
+- After completing a multi-step workflow, summarize what was done and what remains.
+
+## 7. Slack Message — Recency-Sorted User Lookup and Confirmation
+
+Before sending ANY Slack message, follow these four steps in order. Never skip a step.
+
+### Step 1: Search Slack for the recipient
+
+- Call `users_search` (MCP server: `user-opensource-slack`) with the name or keyword the user provided.
+- Never skip this search — even if the user provides a full name or Slack username.
+- Do NOT guess or default to a previously used recipient.
+- If **zero matches** are returned, tell the user and ask them to try a different name, username, or email. Stop here.
+
+### Step 2: Check recent conversation history for each match
+
+- For each user returned by `users_search`, call `conversations_search_messages` (MCP server: `user-opensource-slack`) with `filter_users_with` set to the matched user's username (e.g., `@abhishek.pawar1`) and `limit: 1`.
+- This returns the most recent message exchanged with that user.
+- Extract the timestamp of the most recent message. If no messages are found, mark as "No prior conversation".
+
+### Step 3: Present recency-sorted results and let the user pick
+
+- Sort all matches in **descending order** by most recent message timestamp — users you talked to most recently appear first.
+- Users with no prior conversation history go to the bottom of the list.
+- Show each match in a numbered list with:
+  - **Display name**
+  - **Slack username** (e.g., `abhishek.pawar1`)
+  - **Last conversation date** (e.g., "Last messaged: Apr 5, 2026" or "No prior conversation")
+- If **multiple matches** exist, ask: "Multiple users found — which one?"
+- If **exactly one match** exists, still present it and ask for confirmation.
+
+### Step 4: Confirm recipient and message, then send
+
+- After the user selects a recipient, confirm both:
+  - The **recipient** (display name + username).
+  - The **message content** that will be sent.
+- Format: "I'll send this to **<Display Name>** (`<username>`): _<message preview>_. Confirm?"
+- Do NOT call `slack_send_dm` or `slack_send_message` until the user explicitly confirms.
+
+## 8. MCP Database Awareness
+
+- When the user asks to run a query, check if MCP database tools are available (user-stage, user-prod, user-dev).
+- If available, offer to run diagnostics directly instead of generating copy-paste SQL.
+- Always confirm which environment (stage / prod / dev) before running any query via MCP. Never run writes against prod without explicit confirmation.
+
+## 9. Jira, pg-metadata delivery, and MCP (DS / data engineering)
+
+- **Tickets I create:** Do **not** set **story points**, **ETA** (due dates / estimate fields), or **sprint** unless the user explicitly asks.
+- **DS `Development-DS` create:** Use **`user-jira`** (`jira_create_issue_advanced`, `jira_get_field_options`) when needed. Required fields often include **Effort Category** (`customfield_48064`), **DS Component** (`customfield_27769` as cascading parent + child), **Business Name** (`customfield_27771`), **Development Type** (`customfield_27772`), plus description. Do not assume template-only custom fields exist on the create screen.
+- **pg-metadata:** Open a **separate Automation deployment Jira** for PG deploys (`/i` paths in the ticket body); keep PR body aligned with the repo template. See **`~/.cursor/skills/forever-learner/learnings.md`** entry *pg-metadata PRs require a separate Deployment Jira ticket* for the full pattern.
+- **Blocker links (`Blocks`):** **Outward** issue **blocks** **inward** issue (inward **is blocked by** outward). Example: backend dev ticket blocks downstream Tableau dashboard ticket; **Automation deployment ticket** + merged **PR** can be recorded as upstream blockers on the dev ticket when tracking prod readiness.
+- **Remote / web links:** Use `jira_create_remote_issue_link` for GitHub PR URLs when the PR is not a Jira issue.
+- **MCP:** `user-atlassian` **issue attachments** may not resolve local filesystem paths — instruct the user to attach files manually if upload fails. If both **`user-jira`** and **`user-atlassian`** can satisfy a Jira request, **ask which server to use** before invoking tools.

@@ -1,0 +1,22 @@
+---
+description: Choose Charlotte vs Playwright MCP for browser tasks; avoid interleaving both for the same step
+alwaysApply: false
+---
+
+# Browser MCPs: Charlotte vs Playwright
+
+This workspace may expose **two** browser MCP servers: **charlotte** (`@ticktockbent/charlotte`) and **playwright** (`@playwright/mcp`).
+
+## Default
+
+1. **Charlotte first** for opening pages, orientation, and routine interactions: `navigate`, `observe` (use `detail` as needed: minimal → summary → full), `find`, `click`, `type`, etc. It keeps tool output smaller by design.
+2. **Playwright MCP** when you need what Charlotte does not optimize for: **`browser_run_code`**, full Playwright-driven debugging, or the official Playwright snapshot/network workflow documented for `@playwright/mcp`.
+
+## Do not
+
+- Call both toolsets for the same logical action in one turn (e.g. two navigations to the same URL on two servers) unless the user asked to compare or one server failed and you are falling back.
+- Use Playwright for a **first** look at a large, unknown page if Charlotte can orient you first; escalate to Playwright when the task requires it.
+
+## Built-in browser
+
+If **cursor-ide-browser** is also available, prefer **Charlotte** or **Playwright** per the task; use the built-in tool when the user is already in that flow or docs say to use it.

@@ -1,8 +1,9 @@
 # Cursor-Workbench
 
-A **copy-paste Cursor kit**: skills, subagents, and an **optional** local log
-hook. Drop the folders you want into a project’s `.cursor/` and use the
-defaults below. No global install, no required cloud service.
+A **copy-paste Cursor kit**: **rules**, **skills**, **subagents**, **MCP
+example config**, and **optional** hooks (local log, Langfuse, MCP guard). Drop
+the pieces you want into a project’s `.cursor/` (or your user config) — see
+[docs/SETUP.md](docs/SETUP.md). No global install required.
 
 **Last doc refresh:** 2026-04-24 — Cursor’s skill/hook behavior can evolve; if
 something no longer autoloads, check Cursor’s docs for your version.
@@ -11,8 +12,9 @@ something no longer autoloads, check Cursor’s docs for your version.
 
 | In scope | Out of scope (non-goals) |
 | --- | --- |
-| Reusable **skills** and **subagent** prompts for a consistent agent workflow | A fork of any other public “agent kit” repo; this tree is **standalone** |
-| **Optional** project hooks that only append to a local log and **never block** the editor | Product decisions for your org (you still own process and compliance) |
+| Reusable **rules**, **skills**, and **subagent** prompts for a consistent agent workflow | A fork of any other public “agent kit” repo; this tree is **standalone** |
+| **Optional** hooks (file log, Langfuse, MCP write prompts) that **fail open** | Product decisions for your org (you still own process and compliance) |
+| Example **[config/mcp.json.example](config/mcp.json.example)** (placeholders only) | Your real `mcp.json` with API keys — **keep local / private** |
 | A **default path** (clarify → implement → test → review → ship) you can share with peers | Replacement for code review, security review, or your CI pipeline |
 
 ## Architecture (default workflow)
@@ -43,6 +45,21 @@ flowchart TB
 
 ## What’s in the box
 
+**Full install guide:** [docs/SETUP.md](docs/SETUP.md) (rules, MCP, hooks, merge
+order). **Optional AGENTS starter:** [docs/AGENTS.template.md](docs/AGENTS.template.md).
+
+### Rules (`.cursor/rules/*.mdc`)
+
+| Path | Notes |
+| --- | --- |
+| [rules/](rules/) | Cursor project rules (Atlassian, browser, token efficiency, data-eng, etc.). Copy the whole folder or pick files. |
+
+### MCP (example only — [config/mcp.json.example](config/mcp.json.example))
+
+| Purpose |
+| --- |
+| Template for `code-review-graph`, `charlotte`, `playwright`, and an optional **Tableau** block with **placeholder** URL, path, and PAT. Copy to `~/.cursor/mcp.json` or project `.cursor/mcp.json` and fill in locally. |
+
 ### Skills (`.cursor/skills/<name>/skills.md`)
 
 | Skill | One line | Example trigger phrase |
@@ -69,7 +86,12 @@ flowchart TB
 
 ### Hooks (optional)
 
-See [hooks/README.md](hooks/README.md). Local log only: [hooks/local-jsonl-log](hooks/local-jsonl-log).
+See [hooks/README.md](hooks/README.md) and [docs/hooks.json.example](docs/hooks.json.example).
+
+| Bundle | Role |
+| --- | --- |
+| [hooks/local-jsonl-log](hooks/local-jsonl-log) | Append-only local file log. |
+| [hooks/langfuse-cursor-hook](hooks/langfuse-cursor-hook) | Langfuse + `mcp-guard.sh`; run `install.sh` for Python deps. |
 
 ## Quickstart (5 minutes)
 
@@ -134,10 +156,12 @@ cursor-workbench/
   README.md
   LICENSE
   .gitignore
-  docs/future.md
-  skills/           # Cursor skills (per-folder skills.md)
-  subagents/        # Role prompts
-  hooks/            # Optional hook bundle(s)
+  config/             # mcp.json.example (no secrets)
+  docs/               # SETUP.md, AGENTS.template.md, hooks.json.example, future.md
+  rules/              # .mdc rules for .cursor/rules/
+  skills/             # Cursor skills (per-folder skills.md)
+  subagents/          # Role prompts
+  hooks/              # local-jsonl + langfuse-cursor-hook bundles
 ```
 
 ## Verification checklist (before you tell peers "it works")

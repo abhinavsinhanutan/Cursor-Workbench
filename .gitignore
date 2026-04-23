@@ -4,6 +4,9 @@
 !.env.example
 *.pem
 
+# Real MCP config (copy from config/mcp.json.example; never commit tokens)
+.cursor/mcp.json
+
 # Local hook / observability data (peers: keep logs out of git)
 .cursor/cursor-workbench-logs/
 **/.cursor-workbench-logs/

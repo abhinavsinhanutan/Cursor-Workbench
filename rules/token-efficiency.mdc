@@ -1,0 +1,30 @@
+---
+description: Model routing for quota savings + warn before requests likely to exceed ~180k tokens
+alwaysApply: true
+---
+
+# Token efficiency and high-context warnings
+
+## Model choice (monthly quota)
+
+| Use | Model |
+|-----|--------|
+| Questions, explanations, quick lookups, short clarifications | Prefer **smaller / faster / cheaper** (non-Max unless needed) |
+| Multi-file work, migrations, architecture, subtle cross-cutting bugs | Prefer **larger / Max / strongest** |
+
+Remind the user to **pick the model in the chat/composer dropdown** before starting when scope is obvious; switch up if scope grows mid-thread.
+
+## ~180k token threshold (heuristic)
+
+There is **no** reliable pre-send token counter in Cursor. **Before** acting, estimate whether this turn (input + tool output) could approach or exceed **~180k tokens**.
+
+**Warn first** (then proceed if the user confirms) when:
+
+- Many large `@` references, whole folders, or repo-wide context.
+- Very long pastes (logs, SQL dumps, JSON).
+- The next step would read multiple huge files or run tools returning very large output.
+- A **long thread** plus a request that re-processes the same material end-to-end.
+
+**Say briefly:** high estimated token cost; suggest a **narrower `@`**, **new chat**, **splitting** the task, or **summarizing** first; ask to confirm before continuing.
+
+**Skip** this warning for trivial one-line questions or when the user explicitly asks to skip.
