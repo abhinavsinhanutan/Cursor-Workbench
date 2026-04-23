@@ -3,6 +3,10 @@
 Use this when you want **rules**, **MCP config**, and **hooks** from this repo
 on a real workspace. **Never commit** API keys, PATs, or Langfuse secrets.
 
+**Do not** copy your **real** machine-wide or monorepo **`.cursor/mcp.json`**
+(e.g. from `Documents/GitHub/.cursor/mcp.json`) into the Cursor-Workbench
+git tree. Start from [config/mcp.json.example](https://github.com/abhinavsinhanutan/Cursor-Workbench/blob/main/config/mcp.json.example) only. See [SECURITY.md](../SECURITY.md).
+
 ## 1. Rules (`.cursor/rules/`)
 
 ```bash

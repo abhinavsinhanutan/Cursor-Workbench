@@ -6,6 +6,9 @@
 
 # Real MCP config (copy from config/mcp.json.example; never commit tokens)
 .cursor/mcp.json
+**/.cursor/mcp.json
+# If someone pastes a full config as config/mcp.json (not the .example)
+config/mcp.json
 
 # Local hook / observability data (peers: keep logs out of git)
 .cursor/cursor-workbench-logs/

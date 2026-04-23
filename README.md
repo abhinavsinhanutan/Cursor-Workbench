@@ -10,6 +10,8 @@ Use what you need in a project’s **`.cursor/`** or in your **user** Cursor con
 
 **Last doc refresh:** 2026-04 (update when you change the tree meaningfully). Cursor’s skill and hook behavior can differ by version — check Cursor’s docs if something does not autoload.
 
+**Security:** [SECURITY.md](SECURITY.md) — enable **GitHub → Settings → Code security and analysis (secret scanning)**; never copy your real workspace `mcp.json` (e.g. `~/…/GitHub/.cursor/mcp.json`) into this repo, only [config/mcp.json.example](config/mcp.json.example).
+
 ---
 
 ## Contents
@@ -24,6 +26,7 @@ Use what you need in a project’s **`.cursor/`** or in your **user** Cursor con
 - [Repository layout](#repository-layout)
 - [Verify before you share](#verification-checklist-before-you-tell-peers-it-works)
 - [License](#license)
+- [Security / secrets](SECURITY.md)
 
 ---
 
@@ -174,6 +177,7 @@ cp -R "$WB/rules"/* "$TARGET/.cursor/rules/"   # optional: merge if rules alread
 ```text
 Cursor-Workbench/
   README.md
+  SECURITY.md
   LICENSE
   .gitignore
   config/             # mcp.json.example, MCP.md, .env.example (no real credentials)
